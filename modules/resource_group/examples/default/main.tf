@@ -1,6 +1,5 @@
 module "resource_group" {
-  # source  = "github.com/crytlig/tfmods/modules/resource_group?ref=main"
-  source  = "github.com/crytlig/tfmods//modules/resource_group?ref=main"
+  source = "github.com/crytlig/tfmods//modules/resource_group?ref=main"
   # source = "../../"
 
   name     = "rg-workload"

@@ -82,7 +82,7 @@ resource "azurerm_linux_virtual_machine" "this" {
 }
 
 resource "tls_private_key" "this" {
-  count     = local.gen_key ? 1 : 0
+  count = local.gen_key ? 1 : 0
 
   algorithm = "RSA"
   rsa_bits  = 4096

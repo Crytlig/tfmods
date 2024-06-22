@@ -18,6 +18,11 @@ variable "resource_group_name" {
   description = "The resource group where the resources will be deployed."
 }
 
+variable "tags" {
+  type        = map(any)
+  description = "Map of tags to assign to the Key Vault resource."
+}
+
 variable "enabled_for_deployment" {
   type        = bool
   default     = false
@@ -66,7 +71,7 @@ DESCRIPTION
 
 variable "public_network_access_enabled" {
   type        = bool
-  default     = true
+  default     = false
   description = <<DESCRIPTION
 (Optional) Specifies whether public access is permitted. Defaults to true
 Key vault requires network ACLs so only permitted IPs are allowed.
@@ -133,13 +138,6 @@ DESCRIPTION
     error_message = "Value must be an integer."
   }
 }
-
-variable "tags" {
-  type        = map(any)
-  default     = null
-  description = "Map of tags to assign to the Key Vault resource."
-}
-
 
 variable "wait_for_rbac" {
   type = object({
