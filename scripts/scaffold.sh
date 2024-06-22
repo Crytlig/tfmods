@@ -15,13 +15,14 @@ BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[1]}" )" && pwd )"
 MOD_NAME=${1-"$(gum input --placeholder "Input module name")"}
 
 MOD_PATH="${BASE_DIR}/modules/${MOD_NAME}"
-EXAMPLE_PATH="${MOD_PATH}/example"
+EXAMPLES_PATH="${MOD_PATH}/examples/default"
+
 SCAFFOLD_FILES=(main.tf outputs.tf variables.tf)
 TEMPLATE_FILES=(provider.tf)
 
 echo "--> Creating: $MOD_PATH"
 echo "--> Scaffolding ${SCAFFOLD_FILES[*]}"
-mkdir $MOD_PATH $EXAMPLE_PATH
+mkdir -p $MOD_PATH $EXAMPLES_PATH
 
 # Create files in module path
 pushd $MOD_PATH 1>/dev/null
@@ -34,8 +35,9 @@ done
 popd 1>/dev/null
 
 # Create files in example path
-pushd $EXAMPLE_PATH 1>/dev/null
-cp $BASE_DIR/templates/provider.tf $EXAMPLE_PATH
+pushd $EXAMPLES_PATH 1>/dev/null
+cp $BASE_DIR/templates/.terraform-docs.yml $MOD_PATH
+cp $BASE_DIR/templates/provider.tf $EXAMPLES_PATH
 
 # Add provider block to provider.tf for deployment
 cat << EOF >> provider.tf
