@@ -46,4 +46,5 @@ enter submit
 - [ ] Add precommit hook
 - [ ] Fix tflint
 - [ ] Update all examples
+- [ ] Add CI workflow
 - [ ] Add pattern modules
