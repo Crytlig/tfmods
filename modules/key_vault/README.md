@@ -15,7 +15,7 @@
 | <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | (Optional) Specifies whether public access is permitted. Defaults to true<br>Key vault requires network ACLs so only permitted IPs are allowed.<br>When using Private endpoint, public\_network\_access\_enabled should probably be set to false. | `bool` | `false` | no |
 | <a name="input_purge_protection_enabled"></a> [purge\_protection\_enabled](#input\_purge\_protection\_enabled) | (Optional) Specifies whether protection against purge is enabled for this Key Vault. Defaults to false. Note once enabled this cannot be disabled. | `bool` | `false` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The resource group where the resources will be deployed. | `string` | n/a | yes |
-| <a name="input_role_assignments"></a> [role\_assignments](#input\_role\_assignments) | A map of role assignments to create on the Key Vault. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time.<br><br>- `role_definition_id_or_name` - The ID or name of the role definition to assign to the principal.<br>- `principal_id` - The ID of the principal to assign the role to.<br>- `description` - The description of the role assignment.<br>- `skip_service_principal_aad_check` - If set to true, skips the Azure Active Directory check for the service principal in the tenant. Defaults to false.<br>- `condition` - The condition which will be used to scope the role assignment.<br>- `condition_version` - The version of the condition syntax. If you are using a condition, valid values are '2.0'.<br><br>> Note: only set `skip_service_principal_aad_check` to true if you are assigning a role to a service principal. | <pre>map(object({<br>    role_definition_id_or_name             = string<br>    principal_id                           = string<br>    description                            = optional(string, null)<br>    skip_service_principal_aad_check       = optional(bool, false)<br>    condition                              = optional(string, null)<br>    condition_version                      = optional(string, null)<br>    delegated_managed_identity_resource_id = optional(string, null)<br>    principal_type                         = optional(string, null)<br>  }))</pre> | `{}` | no |
+| <a name="input_role_assignments"></a> [role\_assignments](#input\_role\_assignments) | A map of role assignments to create on the Key Vault. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time.<br><br>- `role_definition_id_or_name` - The ID or name of the role definition to assign to the principal.<br>- `principal_id` - The ID of the principal to assign the role to.<br>- `description` - The description of the role assignment.<br>- `skip_service_principal_aad_check` - If set to true, skips the Azure Active Directory check for the service principal in the tenant. Defaults to false.<br>- `condition` - The condition which will be used to scope the role assignment.<br>- `condition_version` - The version of the condition syntax. If you are using a condition, valid values are '2.0'.<br><br>> Note: only set `skip_service_principal_aad_check` to true if you are assigning a role to a service principal. | <pre>map(object({<br>    role_definition_id_or_name             = string<br>    principal_id                           = string<br>    description                            = optional(string, null)<br>    skip_service_principal_aad_check       = optional(bool, false)<br>    condition                              = optional(string, null)<br>    condition_version                      = optional(string, null)<br>    delegated_managed_identity_resource_id = optional(string, null)<br>  }))</pre> | `{}` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | The SKU name of the Key Vault. Default is `standard`. `Possible values are `standard` and `premium`.` | `string` | `"standard"` | no |
 | <a name="input_soft_delete_retention_days"></a> [soft\_delete\_retention\_days](#input\_soft\_delete\_retention\_days) | The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days. | `number` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to assign to the Key Vault resource. | `map(any)` | n/a | yes |
@@ -34,10 +34,14 @@
 # Key vault module. Public access is denied by default
 module "key_vault" {
   # source  = "github.com/crytlig/tfmods//modules/key_vault?ref=main"
-  source              = "../../"
-  name                = "kv-kv-example-${random_pet.example.id}"
+  source = "../../"
+
+  name                = replace("kvexample${random_pet.example.id}", "-", "")
   location            = "westeurope"
-  resource_group_name = "rg-kv-example"
+  resource_group_name = azurerm_resource_group.example.name
+  # Public network access has to be enabled for network ACLs
+  # when using a private endpoint, this should be disabled - which it is by default
+  public_network_access_enabled = true
 
   network_acls = {
     virtual_network_subnet_ids = [azurerm_subnet.example.id]
@@ -49,13 +53,14 @@ module "key_vault" {
       role_definition_id_or_name = "Key Vault Secrets Officer"
       principal_id               = data.azuread_client_config.example.object_id
       description                = "Example role assignment for the deployment client"
+      principal_type             = "User"
     }
   }
 
   # Wait for rbac propagation
   wait_for_rbac = {
-    create  = 30
-    destroy = 0
+    create  = "30s"
+    destroy = "0s"
   }
 
   tags = {
@@ -75,10 +80,10 @@ data "http" "example" {
 resource "random_pet" "example" {
   length = 2
 }
+
 locals {
   ip = "${chomp(data.http.example.response_body)}/32"
 }
-
 
 resource "azurerm_resource_group" "example" {
   name     = "rg-kv-example"
@@ -92,8 +97,8 @@ resource "azurerm_resource_group" "example" {
 resource "azurerm_virtual_network" "example" {
   name                = "vnet-kv-example"
   location            = "westeurope"
-  resource_group_name = "rg-kv-example"
-  address_space       = ["10.250.0.10/26"]
+  resource_group_name = azurerm_resource_group.example.name
+  address_space       = ["10.250.0.0/26"]
 
   tags = {
     environment = "dev"
@@ -102,20 +107,10 @@ resource "azurerm_virtual_network" "example" {
 
 resource "azurerm_subnet" "example" {
   name                 = "snet-kv-example"
-  resource_group_name  = "rg-kv-example"
-  virtual_network_name = "vnet-kv-example"
-  address_prefixes     = ["10.250.0.12/28"]
-
-  delegation {
-    name = "kv-example"
-    service_delegation {
-      name = "Microsoft.KeyVault/vaults"
-      actions = [
-        "Microsoft.Network/virtualNetworks/subnets/join/action",
-        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
-      ]
-    }
-  }
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.250.0.0/29"]
+  service_endpoints    = ["Microsoft.KeyVault"]
 }
 ```
 <!-- END_TF_DOCS -->
