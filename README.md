@@ -15,9 +15,9 @@ As the repository is also used for testing various tools in the eco-system, ther
 
 ## Make
 
-[asdf](./scripts/asdf.sh) installs all necessary tools from [.tool-versions](./.tool-versions)
+[scripts/asdf.sh](./scripts/asdf.sh) installs all necessary tools from [.tool-versions](./.tool-versions)
 
-[scaffold.sh](./scripts/scaffold.sh) scaffolds a new module directory. Either use the script or make
+[scripts/scaffold.sh](./scripts/scaffold.sh) scaffolds a new module directory. Either use the script or make
 
 ### Initialize with make, intactive only
 
@@ -40,3 +40,10 @@ module=new_module
 
 enter submit
 ```
+
+## TODOS
+
+- [ ] Add precommit hook
+- [ ] Fix tflint
+- [ ] Update all examples
+- [ ] Add pattern modules
