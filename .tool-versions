@@ -1,4 +1,5 @@
 terragrunt 0.59.5
 terraform-docs 0.16.0
 terramate 0.9.0
+tflint 0.51.1
 gum 0.14.1
