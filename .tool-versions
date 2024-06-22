@@ -1,0 +1,4 @@
+terragrunt 0.59.5
+terraform-docs 0.16.0
+terramate 0.9.0
+gum 0.14.1
