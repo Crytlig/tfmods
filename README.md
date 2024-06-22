@@ -12,3 +12,31 @@ The modules, contrary to other modules, such as the [Azure Verified Modules](htt
 ## Playground
 
 As the repository is also used for testing various tools in the eco-system, there might be specific files laying around, such as stacks for terramate, terragrunt files, linting etc.
+
+## Make
+
+[asdf](./scripts/asdf.sh) installs all necessary tools from [.tool-versions](./.tool-versions)
+
+[scaffold.sh](./scripts/scaffold.sh) scaffolds a new module directory. Either use the script or make
+
+### Initialize with make, intactive only
+
+```bash
+make scaffold
+```
+
+### Initialize with named module
+
+```bash
+module=new_module
+./scripts/scaffold.sh $module
+```
+
+### Initialize interactive
+
+```bash
+./scripts/scaffold.sh
+> Input module name
+
+enter submit
+```
