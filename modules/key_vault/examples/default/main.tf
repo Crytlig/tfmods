@@ -1,4 +1,3 @@
-# Key vault module. Public access is denied by default
 module "key_vault" {
   # source  = "github.com/crytlig/tfmods//modules/key_vault?ref=main"
   source = "../../"
