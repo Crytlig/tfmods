@@ -16,3 +16,7 @@ asdf:
 scaffold:
 	./scripts/scaffold.sh
 
+## docs: recursively generate docs in all modules
+.PHONY: docs
+docs:
+	./scripts/docs.sh
