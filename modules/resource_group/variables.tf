@@ -10,6 +10,5 @@ variable "name" {
 
 variable "tags" {
   type        = map(any)
-  description = "Optional tags for the resource group."
-  default     = null
+  description = "Tags for the resource group."
 }
