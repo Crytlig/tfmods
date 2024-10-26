@@ -10,6 +10,9 @@ sections:
   show: []
 
 content: |-
+  # Key vault
+
+  This is a module for a secure key vault, including IAM roles
 
   {{ .Header }}
 
@@ -19,7 +22,7 @@ content: |-
 
   # Examples
 
-  ## Default 
+  ## Default
   ```hcl
   {{ include "examples/default/main.tf" }}
   ```
