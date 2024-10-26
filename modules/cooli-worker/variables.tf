@@ -50,3 +50,8 @@ variable "create_public_ip" {
   default     = true
   description = "Whether to create and associate a public IP address"
 }
+
+variable "admin_username" {
+  type        = string
+  description = "admin username used for ssh"
+}

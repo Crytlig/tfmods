@@ -10,7 +10,7 @@ module "vm" {
   resource_group_name = data.azurerm_resource_group.this.name
   location            = data.azurerm_resource_group.this.location
 
-  admin_username                     = "cooli-worker"
+  admin_username                     = var.admin_username
   enable_telemetry                   = false
   encryption_at_host_enabled         = false
   generate_admin_password_or_ssh_key = false
@@ -21,7 +21,7 @@ module "vm" {
   admin_ssh_keys = [
     {
       public_key = var.ssh_public_key
-      username   = "cooli-worker" #the username must match the admin_username
+      username   = var.admin_username
     }
   ]
 
