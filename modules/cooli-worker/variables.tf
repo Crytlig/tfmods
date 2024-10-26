@@ -5,12 +5,12 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Name to be used for the resources that will be created"
+  description = "Name to be used for the machine that will be created"
 }
 
 variable "sku_size" {
   type        = string
-  description = "The SKU size/tier for Azure resources"
+  description = "The SKU size for the virtual machine"
 }
 
 variable "managed_identity_id" {
