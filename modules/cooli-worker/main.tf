@@ -27,7 +27,7 @@ module "vm" {
 
   managed_identities = {
     system_assigned            = true
-    user_assigned_resource_ids = var.managed_identity_id != null ? [azurerm_user_assigned_identity.this.id] : []
+    user_assigned_resource_ids = var.managed_identity_id != null ? [var.managed_identity_id] : []
   }
 
   network_interfaces = {
@@ -114,6 +114,6 @@ resource "azurerm_network_security_group" "this" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "this" {
-  subnet_id                 = azurerm_subnet.this.id
+  subnet_id                 = var.subnet_id
   network_security_group_id = azurerm_network_security_group.this.id
 }
