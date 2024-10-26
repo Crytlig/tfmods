@@ -1,14 +1,10 @@
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 module "vm" {
   source  = "Azure/avm-res-compute-virtualmachine/azurerm"
-  version = "0.16.0"
+  version = "0.15.0"
 
   name                = var.name
-  resource_group_name = data.azurerm_resource_group.this.name
-  location            = data.azurerm_resource_group.this.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   admin_username                     = var.admin_username
   enable_telemetry                   = false
@@ -68,8 +64,8 @@ module "vm" {
 
 resource "azurerm_network_security_group" "this" {
   name                = var.network_security_group_name
-  resource_group_name = data.azurerm_resource_group.this.name
-  location            = data.azurerm_resource_group.this.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
   security_rule {
     name                       = "allow_http"

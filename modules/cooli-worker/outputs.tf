@@ -11,7 +11,7 @@ output "name" {
 }
 
 output "public_ip" {
-  value = module.vm.public_ips.network_interface-ip_configuration_avs_facing.ip_addres
+  value = module.vm.public_ips.network_interface-ip_configuration_avs_facing.ip_address
 }
 
 output "network_security_group_id" {
