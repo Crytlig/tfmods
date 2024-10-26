@@ -2,8 +2,6 @@
 
 set -e
 
-
-# Check if gum is installed
 if ! command -v gum &> /dev/null
 then
     echo "gum could not be found, please install it first."
@@ -24,7 +22,6 @@ echo "--> Creating: $MOD_PATH"
 echo "--> Scaffolding ${SCAFFOLD_FILES[*]}"
 mkdir -p $MOD_PATH $EXAMPLES_PATH
 
-# Create files in module path
 pushd $MOD_PATH 1>/dev/null
 touch "README.md"
 cp $BASE_DIR/templates/provider.tf $MOD_PATH
@@ -34,12 +31,10 @@ for file in ${SCAFFOLD_FILES[*]}; do
 done
 popd 1>/dev/null
 
-# Create files in example path
 pushd $EXAMPLES_PATH 1>/dev/null
 cp $BASE_DIR/templates/.terraform-docs.yml $MOD_PATH
 cp $BASE_DIR/templates/provider.tf $EXAMPLES_PATH
 
-# Add provider block to provider.tf for deployment
 cat << EOF >> provider.tf
 provider "azurerm" {
   features {}
