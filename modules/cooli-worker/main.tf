@@ -50,6 +50,8 @@ module "vm" {
   os_disk = {
     caching              = "ReadWrite"
     storage_account_type = "StandardSSD_LRS"
+    disk_size_gb         = var.disk_size_gb
+
   }
 
   source_image_reference = {

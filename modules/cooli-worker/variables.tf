@@ -60,3 +60,8 @@ variable "admin_username" {
   type        = string
   description = "admin username used for ssh"
 }
+
+variable "disk_size_gb" {
+  type        = number
+  description = "Size of the disk in GB"
+}
