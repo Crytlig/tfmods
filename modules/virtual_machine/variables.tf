@@ -58,10 +58,13 @@ variable "os_disk" {
   type = object({
     storage_account_type = string
     disk_size_gb         = number
+    caching              = optional(string, "ReadWrite")
   })
   default = {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 30
+    caching              = "ReadWrite"
+
   }
 }
 

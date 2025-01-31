@@ -38,6 +38,12 @@ variable "coolify_manager_ip" {
   description = "IP address of the Coolify manager instance"
 }
 
+variable "is_coolify_manager" {
+  type        = bool
+  description = "Whether the instance is a Coolify manager instance"
+  default     = false
+}
+
 variable "ssh_public_key" {
   type        = string
   sensitive   = true
@@ -65,9 +71,12 @@ variable "os_disk" {
   type = object({
     storage_account_type = string
     disk_size_gb         = number
+    caching              = optional(string, "ReadWrite")
   })
   default = {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 50
+    caching              = "ReadWrite"
+
   }
 }

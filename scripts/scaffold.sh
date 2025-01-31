@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 set -e
 
@@ -31,17 +31,17 @@ for file in ${SCAFFOLD_FILES[*]}; do
 done
 popd 1>/dev/null
 
+
 pushd $EXAMPLES_PATH 1>/dev/null
 cp $BASE_DIR/templates/.terraform-docs.yml $MOD_PATH
-cp $BASE_DIR/templates/provider.tf $EXAMPLES_PATH
 
+# For examples, create only provider.tf and main.tf
+cp $BASE_DIR/templates/provider.tf $EXAMPLES_PATH
+# And add provider block so it's deployable
 cat << EOF >> provider.tf
 provider "azurerm" {
   features {}
 }
 EOF
-
-for file in ${SCAFFOLD_FILES[*]}; do
-    touch $file
-done
+touch main.tf
 popd 1>/dev/null

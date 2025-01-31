@@ -30,7 +30,7 @@
 
 # Examples
 
-## Default
+## Default 
 ```hcl
 
 ```

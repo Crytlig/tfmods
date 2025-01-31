@@ -35,7 +35,9 @@ module "cooli" {
   managed_identity_id         = azurerm_user_assigned_identity.example.id
   network_security_group_name = "example-nsg"
   sku_size                    = "Standard_B2als_v2"
-  disk_size_gb                = 100
   ssh_public_key              = file("~/.ssh/azure_vms.pub")
   subnet_id                   = azurerm_subnet.example.id
+  os_disk = {
+    storage_account_type = "Standard_LRS",
+  disk_size_gb = 50 }
 }

@@ -21,7 +21,7 @@
 
 # Examples
 
-## Default
+## Default 
 ```hcl
 
 ```

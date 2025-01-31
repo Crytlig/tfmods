@@ -65,6 +65,7 @@ module "virtual_machine" {
   os_disk = {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 100
+    caching              = "ReadWrite"
   }
   generate_ssh_key = {
     name                           = "example-ssh-key"

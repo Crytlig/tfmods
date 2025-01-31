@@ -42,17 +42,12 @@ module "vm" {
   }
 
   public_ip_configuration_details = {
-    allocation_method = "Dynamic"
+    allocation_method = "Static"
     sku               = "Basic"
     sku_tier          = "Regional"
   }
 
-  os_disk = {
-    caching              = "ReadWrite"
-    storage_account_type = "StandardSSD_LRS"
-    disk_size_gb         = var.disk_size_gb
-
-  }
+  os_disk = var.os_disk
 
   source_image_reference = {
     publisher = "Canonical"
@@ -60,7 +55,6 @@ module "vm" {
     sku       = "20_04-lts-gen2"
     version   = "latest"
   }
-
   tags = var.tags
 }
 
@@ -96,13 +90,28 @@ resource "azurerm_network_security_group" "this" {
   dynamic "security_rule" {
     for_each = var.coolify_manager_ip == "" ? [] : [1]
     content {
-      name                       = "allow_ssh"
+      name                       = "allow_ssh_websocket_terminal"
       priority                   = 170
       direction                  = "Inbound"
       access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
-      destination_port_range     = "22"
+      destination_port_ranges    = ["22", "6001", "6002"]
+      source_address_prefix      = var.coolify_manager_ip
+      destination_address_prefix = "*"
+    }
+  }
+
+  dynamic "security_rule" {
+    for_each = var.coolify_manager_ip == "" && var.is_coolify_manager ? [] : [1]
+    content {
+      name                       = "allow_bootstrap_port"
+      priority                   = 180
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "8000"
       source_address_prefix      = var.coolify_manager_ip
       destination_address_prefix = "*"
     }

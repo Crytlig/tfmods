@@ -10,6 +10,11 @@ output "name" {
   value = module.vm.name
 }
 
+output "public_ip_addresses" {
+  value = module.vm.public_ips
+}
+
+
 output "public_ip_address" {
   value = module.vm.public_ips.network_interface-ip_configuration_avs_facing.ip_address
 }
