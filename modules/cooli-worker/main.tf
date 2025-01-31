@@ -47,12 +47,7 @@ module "vm" {
     sku_tier          = "Regional"
   }
 
-  os_disk = {
-    caching              = "ReadWrite"
-    storage_account_type = "StandardSSD_LRS"
-    disk_size_gb         = var.disk_size_gb
-
-  }
+  os_disk = var.os_disk
 
   source_image_reference = {
     publisher = "Canonical"
