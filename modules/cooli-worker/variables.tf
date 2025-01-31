@@ -61,7 +61,13 @@ variable "admin_username" {
   description = "admin username used for ssh"
 }
 
-variable "disk_size_gb" {
-  type        = number
-  description = "Size of the disk in GB"
+variable "os_disk" {
+  type = object({
+    storage_account_type = string
+    disk_size_gb         = number
+  })
+  default = {
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = 50
+  }
 }
