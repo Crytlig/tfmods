@@ -1,4 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
+# Key vault
+
+This is a module for a secure key vault, including IAM roles
 
 
 
@@ -31,7 +34,6 @@
 
 ## Default
 ```hcl
-# Key vault module. Public access is denied by default
 module "key_vault" {
   # source  = "github.com/crytlig/tfmods//modules/key_vault?ref=main"
   source = "../../"
