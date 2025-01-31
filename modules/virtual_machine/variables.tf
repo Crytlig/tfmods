@@ -28,8 +28,13 @@ variable "subnet_id" {
   nullable    = false
 }
 
+variable "managed_identity_id" {
+  type        = string
+  description = "The ID of the managed identity to be used with Azure resources"
+}
+
 # Optional variables
-variable "sku" {
+variable "sku_size" {
   type        = string
   description = "The sku value to use for this virtual machine"
   nullable    = false
@@ -47,6 +52,17 @@ variable "admin_username" {
   type        = string
   description = "(Optional) Admin username. Defaults to adminjensen"
   default     = "adminjensen"
+}
+
+variable "os_disk" {
+  type = object({
+    storage_account_type = string
+    disk_size_gb         = number
+  })
+  default = {
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = 30
+  }
 }
 
 variable "generate_ssh_key" {

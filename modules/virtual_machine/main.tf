@@ -54,7 +54,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   location              = var.location
   resource_group_name   = var.resource_group_name
   admin_username        = var.admin_username
-  size                  = var.sku
+  size                  = var.sku_size
   network_interface_ids = [azurerm_network_interface.this.id]
 
   admin_ssh_key {
@@ -64,7 +64,8 @@ resource "azurerm_linux_virtual_machine" "this" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.os_disk.storage_account_type
+    disk_size_gb         = var.os_disk.disk_size_gb
   }
 
   source_image_reference {
