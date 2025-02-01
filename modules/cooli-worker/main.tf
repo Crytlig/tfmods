@@ -42,6 +42,9 @@ module "vm" {
   }
 
   public_ip_configuration_details = {
+    # Set the allocation method to static to enable getting 
+    # the IP immediately after creation.
+    # Dynamic allocation takes some time to assign the IP.
     allocation_method = "Static"
     sku               = "Basic"
     sku_tier          = "Regional"
@@ -103,7 +106,7 @@ resource "azurerm_network_security_group" "this" {
   }
 
   dynamic "security_rule" {
-    for_each = var.coolify_manager_ip == "" && var.is_coolify_manager ? [] : [1]
+    for_each = var.coolify_manager_ip != "" && var.is_coolify_manager ? [1] : []
     content {
       name                       = "allow_bootstrap_port"
       priority                   = 180
