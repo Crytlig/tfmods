@@ -10,13 +10,8 @@ output "name" {
   value = module.vm.name
 }
 
-output "public_ip_addresses" {
-  value = module.vm.public_ips
-}
-
-
 output "public_ip_address" {
-  value = module.vm.public_ips.network_interface-ip_configuration_avs_facing.ip_address
+  value = var.create_public_ip ? module.vm.public_ips.network_interface-ip_configuration_avs_facing.ip_address : null
 }
 
 output "network_security_group_id" {
