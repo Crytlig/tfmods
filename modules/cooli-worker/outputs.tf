@@ -33,3 +33,8 @@ output "network_security_group_resource_group_name" {
 output "network_security_group_security_rules" {
   value = azurerm_network_security_group.this.security_rule
 }
+
+output "network_interfaces" {
+  value = module.vm.network_interfaces
+}
+
