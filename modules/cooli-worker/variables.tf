@@ -68,6 +68,7 @@ variable "admin_username" {
 }
 
 variable "os_disk" {
+  description = "OS disk configuration"
   type = object({
     storage_account_type = string
     disk_size_gb         = number
