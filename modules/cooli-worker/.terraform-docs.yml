@@ -14,6 +14,11 @@ content: |-
 
   This is a module for deploying a coolify worker (VM) including a network security group, public ip address etc.
 
+  > [!IMPORTANT]  
+  > When setting up GitHub App webhooks, the default callback URI is set to manager's IP address on port 8000.
+  > This module does not set the necessary inbound rules for this port, so it is necessary to set them manually.
+  > If HTTPS and a domain name is used, change the callback URI on the GitHub App to the domain name and port 443.
+
   {{ .Header }}
 
   {{ .Inputs }}

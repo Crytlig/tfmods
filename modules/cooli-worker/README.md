@@ -3,6 +3,11 @@
 
 This is a module for deploying a coolify worker (VM) including a network security group, public ip address etc.
 
+> [!IMPORTANT]  
+> When setting up GitHub App webhooks, the default callback URI is set to manager's IP address on port 8000.
+> This module does not set the necessary inbound rules for this port, so it is necessary to set them manually.
+> If HTTPS and a domain name is used, change the callback URI on the GitHub App to the domain name and port 443.
+
 
 
 ## Inputs
@@ -12,11 +17,12 @@ This is a module for deploying a coolify worker (VM) including a network securit
 | <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | admin username used for ssh | `string` | n/a | yes |
 | <a name="input_coolify_manager_ip"></a> [coolify\_manager\_ip](#input\_coolify\_manager\_ip) | IP address of the Coolify manager instance | `string` | n/a | yes |
 | <a name="input_create_public_ip"></a> [create\_public\_ip](#input\_create\_public\_ip) | Whether to create and associate a public IP address | `bool` | `true` | no |
+| <a name="input_is_coolify_manager"></a> [is\_coolify\_manager](#input\_is\_coolify\_manager) | Whether the instance is a Coolify manager instance | `bool` | `false` | no |
 | <a name="input_location"></a> [location](#input\_location) | Azure region where resources will be deployed | `string` | n/a | yes |
 | <a name="input_managed_identity_id"></a> [managed\_identity\_id](#input\_managed\_identity\_id) | The ID of the managed identity to be used with Azure resources | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be used for the machine that will be created | `string` | n/a | yes |
 | <a name="input_network_security_group_name"></a> [network\_security\_group\_name](#input\_network\_security\_group\_name) | Name of the network security group to be associated with resources | `string` | n/a | yes |
-| <a name="input_os_disk"></a> [os\_disk](#input\_os\_disk) | n/a | <pre>object({<br>    storage_account_type = string<br>    disk_size_gb         = number<br>    caching              = string<br>  })</pre> | <pre>{<br>  "caching": "ReadWrite",<br>  "disk_size_gb": 50,<br>  "storage_account_type": "Standard_LRS"<br>}</pre> | no |
+| <a name="input_os_disk"></a> [os\_disk](#input\_os\_disk) | OS disk configuration | <pre>object({<br>    storage_account_type = string<br>    disk_size_gb         = number<br>    caching              = optional(string, "ReadWrite")<br>  })</pre> | <pre>{<br>  "caching": "ReadWrite",<br>  "disk_size_gb": 50,<br>  "storage_account_type": "Standard_LRS"<br>}</pre> | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Azure resource group where resources will be deployed | `string` | n/a | yes |
 | <a name="input_sku_size"></a> [sku\_size](#input\_sku\_size) | The SKU size for the virtual machine | `string` | n/a | yes |
 | <a name="input_ssh_public_key"></a> [ssh\_public\_key](#input\_ssh\_public\_key) | SSH public key for secure access to resources | `string` | n/a | yes |
@@ -35,6 +41,7 @@ This is a module for deploying a coolify worker (VM) including a network securit
 | <a name="output_network_security_group_name"></a> [network\_security\_group\_name](#output\_network\_security\_group\_name) | n/a |
 | <a name="output_network_security_group_resource_group_name"></a> [network\_security\_group\_resource\_group\_name](#output\_network\_security\_group\_resource\_group\_name) | n/a |
 | <a name="output_network_security_group_security_rules"></a> [network\_security\_group\_security\_rules](#output\_network\_security\_group\_security\_rules) | n/a |
+| <a name="output_private_ip_address"></a> [private\_ip\_address](#output\_private\_ip\_address) | n/a |
 | <a name="output_public_ip_address"></a> [public\_ip\_address](#output\_public\_ip\_address) | n/a |
 
 # Examples
