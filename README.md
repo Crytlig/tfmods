@@ -15,7 +15,7 @@ As the repository is also used for testing various tools in the eco-system, ther
 
 [scripts/scaffold.sh](./scripts/scaffold.sh) scaffolds a new module directory. Either use the script or make
 
-### Initialize with make, intactive only
+### Initialize with make, interactive only
 
 ```bash
 make scaffold
