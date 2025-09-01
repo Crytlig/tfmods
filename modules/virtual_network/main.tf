@@ -11,3 +11,7 @@ resource "azurerm_virtual_network" "this" {
     ignore_changes = [subnet]
   }
 }
+
+locals {
+  name_rg = "${azurerm_virtual_network.this.name}-${azurerm_virtual_network.this.resource_group_name}"
+}
