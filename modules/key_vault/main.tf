@@ -6,7 +6,7 @@ resource "azurerm_key_vault" "this" {
   location                        = var.location
   sku_name                        = var.sku_name
   tenant_id                       = data.azurerm_client_config.this.tenant_id
-  enable_rbac_authorization       = true
+  rbac_authorization_enabled      = true
   enabled_for_disk_encryption     = var.enabled_for_disk_encryption
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_template_deployment = var.enabled_for_template_deployment
@@ -59,3 +59,4 @@ resource "time_sleep" "wait_for_rbac" {
     azurerm_role_assignment.this
   ]
 }
+
