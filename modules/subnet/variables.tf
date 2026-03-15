@@ -46,9 +46,3 @@ variable "network_security_group_id" {
   description = "The ID of the network security group which should be associated with the subnet."
   default     = null
 }
-
-variable "tags" {
-  type        = map(any)
-  description = "Optional tags for the resource group."
-  default     = null
-}

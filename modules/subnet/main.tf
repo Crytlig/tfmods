@@ -1,4 +1,4 @@
-resource "azurerm_subnet" "subnet" {
+resource "azurerm_subnet" "this" {
   name                 = var.name
   resource_group_name  = var.resource_group_name
   virtual_network_name = var.virtual_network_name
@@ -16,14 +16,14 @@ resource "azurerm_subnet" "subnet" {
   }
 }
 
-resource "azurerm_subnet_route_table_association" "route_table_association" {
+resource "azurerm_subnet_route_table_association" "this" {
   count          = var.route_table_id == null ? 0 : 1
-  subnet_id      = azurerm_subnet.subnet.id
+  subnet_id      = azurerm_subnet.this.id
   route_table_id = var.route_table_id
 }
 
-resource "azurerm_subnet_network_security_group_association" "nsg_association" {
+resource "azurerm_subnet_network_security_group_association" "this" {
   count                     = var.network_security_group_id == null ? 0 : 1
   network_security_group_id = var.network_security_group_id
-  subnet_id                 = azurerm_subnet.subnet.id
+  subnet_id                 = azurerm_subnet.this.id
 }
