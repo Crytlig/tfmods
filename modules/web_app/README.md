@@ -6,7 +6,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_app_name"></a> [app\_name](#input\_app\_name) | The name of the Linux web app | `string` | n/a | yes |
 | <a name="input_app_registration_password"></a> [app\_registration\_password](#input\_app\_registration\_password) | The password for the app registration | `string` | `null` | no |
 | <a name="input_app_service_plan_id"></a> [app\_service\_plan\_id](#input\_app\_service\_plan\_id) | The ID of the App Service Plan | `string` | n/a | yes |
 | <a name="input_client_id"></a> [client\_id](#input\_client\_id) | The client ID for Azure Active Directory authentication | `string` | `null` | no |
@@ -14,6 +13,7 @@
 | <a name="input_image_name"></a> [image\_name](#input\_image\_name) | The name of the Docker image | `string` | `null` | no |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | The tag of the Docker image | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure region where the resources will be created | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | The name of the Linux web app | `string` | n/a | yes |
 | <a name="input_port"></a> [port](#input\_port) | The port number for the application | `number` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags to assign to the resource | `map(string)` | n/a | yes |
@@ -24,7 +24,11 @@
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_default_hostname"></a> [default\_hostname](#output\_default\_hostname) | The default hostname of the Linux web app. |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the Linux web app. |
+| <a name="output_identity"></a> [identity](#output\_identity) | The identity block of the Linux web app. |
 
 # Examples
 

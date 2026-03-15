@@ -1,4 +1,4 @@
-variable "app_name" {
+variable "name" {
   type        = string
   description = "The name of the Linux web app"
 }
