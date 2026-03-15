@@ -55,6 +55,7 @@ variable "admin_username" {
 }
 
 variable "os_disk" {
+  description = "OS disk configuration for the virtual machine."
   type = object({
     storage_account_type = string
     disk_size_gb         = number
@@ -64,7 +65,6 @@ variable "os_disk" {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 30
     caching              = "ReadWrite"
-
   }
 }
 
