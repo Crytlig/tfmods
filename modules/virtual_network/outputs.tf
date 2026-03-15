@@ -1,7 +1,9 @@
 output "name" {
-  value = azurerm_virtual_network.this.name
+  description = "The name of the virtual network."
+  value       = azurerm_virtual_network.this.name
 }
 
 output "id" {
-  value = azurerm_virtual_network.this.id
+  description = "The ID of the virtual network."
+  value       = azurerm_virtual_network.this.id
 }
