@@ -28,17 +28,6 @@ variable "tags" {
   description = "A mapping of tags to assign to the resource."
 }
 
-variable "os_type" {
-  type        = string
-  default     = "Linux"
-  description = "The OS type for the App Service Plan. Must be `Linux` or `Windows`."
-
-  validation {
-    condition     = contains(["Linux", "Windows"], var.os_type)
-    error_message = "The os_type must be either Linux or Windows."
-  }
-}
-
 variable "worker_count" {
   type        = number
   default     = null

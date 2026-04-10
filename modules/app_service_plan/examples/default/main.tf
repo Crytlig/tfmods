@@ -5,7 +5,6 @@ module "app_service_plan" {
   name                = "asp-example"
   location            = "westeurope"
   resource_group_name = azurerm_resource_group.example.name
-  os_type             = "Linux"
   sku_name            = "B1"
 
   tags = {
