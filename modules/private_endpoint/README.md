@@ -23,10 +23,10 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_custom_dns_configs"></a> [custom\_dns\_configs](#output\_custom\_dns\_configs) | n/a |
-| <a name="output_id"></a> [id](#output\_id) | n/a |
-| <a name="output_network_interface"></a> [network\_interface](#output\_network\_interface) | n/a |
-| <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | n/a |
+| <a name="output_custom_dns_configs"></a> [custom\_dns\_configs](#output\_custom\_dns\_configs) | The custom DNS configurations of the private endpoint. |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the private endpoint. |
+| <a name="output_network_interface"></a> [network\_interface](#output\_network\_interface) | The network interface associated with the private endpoint. |
+| <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | The ID of the subnet associated with the private endpoint. |
 
 # Examples
 

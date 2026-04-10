@@ -38,16 +38,21 @@ variable "coolify_manager_ip" {
   description = "IP address of the Coolify manager instance"
 }
 
-variable "is_coolify_manager" {
-  type        = bool
-  description = "Whether the instance is a Coolify manager instance"
-  default     = false
-}
-
 variable "ssh_public_key" {
   type        = string
   sensitive   = true
   description = "SSH public key for secure access to resources"
+}
+
+variable "admin_username" {
+  type        = string
+  description = "admin username used for ssh"
+}
+
+variable "is_coolify_manager" {
+  type        = bool
+  description = "Whether the instance is a Coolify manager instance"
+  default     = false
 }
 
 variable "tags" {
@@ -62,11 +67,6 @@ variable "create_public_ip" {
   description = "Whether to create and associate a public IP address"
 }
 
-variable "admin_username" {
-  type        = string
-  description = "admin username used for ssh"
-}
-
 variable "os_disk" {
   description = "OS disk configuration"
   type = object({
@@ -78,6 +78,5 @@ variable "os_disk" {
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 50
     caching              = "ReadWrite"
-
   }
 }

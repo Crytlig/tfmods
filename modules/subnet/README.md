@@ -14,15 +14,14 @@
 | <a name="input_route_table_id"></a> [route\_table\_id](#input\_route\_table\_id) | The ID of the route table which should be associated with the subnet. | `string` | `null` | no |
 | <a name="input_service_delegation"></a> [service\_delegation](#input\_service\_delegation) | The name of service to delegate to. | `string` | `null` | no |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The list of Service endpoints to associate with the subnet. | `set(string)` | `[]` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Optional tags for the resource group. | `map(any)` | `null` | no |
 | <a name="input_virtual_network_name"></a> [virtual\_network\_name](#input\_virtual\_network\_name) | Name of the virtual network. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | n/a |
-| <a name="output_name"></a> [name](#output\_name) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the subnet. |
+| <a name="output_name"></a> [name](#output\_name) | The name of the subnet. |
 
 # Examples
 
