@@ -10,6 +10,123 @@ This is a collection of reusable Terraform modules targeting **Microsoft Azure**
 source = "github.com/crytlig/tfmods//modules/<module_name>?ref=main"
 ```
 
+<!-- <!- rtk-instructions v2 -> -->
+
+# RTK (Rust Token Killer) - Token-Optimized Commands
+
+## Golden Rule
+
+**Always prefix commands with `rtk`**. If RTK has a dedicated filter, it uses it. If not, it passes through unchanged. This means RTK is always safe to use.
+
+**Important**: Even in command chains with `&&`, use `rtk`:
+
+```bash
+# ❌ Wrong
+go build ./cmd/api && go test ./... && git push
+
+# ✅ Correct
+rtk go build ./cmd/api && rtk go test ./... && rtk git push
+```
+
+## RTK Commands by Workflow
+
+```bash
+rtk terraform plan
+rtk terraform init
+rtk go build ./...          # Go build output, compact
+rtk go build -o bin/api ./cmd/api   # Build specific binary
+rtk go build -o bin/worker ./cmd/worker
+rtk go vet ./...            # Go vet, compact
+rtk go test ./... -v        # Go test failures only (90%)
+rtk test go test ./... -v   # Generic test wrapper - failures only
+rtk lint                    # golangci-lint / ESLint violations grouped (84%)
+rtk tsc                     # TypeScript errors grouped by file/code (83%)
+rtk prettier -check        # Files needing format only (70%)
+rtk git status          # Compact status
+rtk git log             # Compact log (works with all git flags)
+rtk git diff            # Compact diff (80%)
+rtk git show            # Compact show (80%)
+rtk git add             # Ultra-compact confirmations (59%)
+rtk git commit          # Ultra-compact confirmations (59%)
+rtk git push            # Ultra-compact confirmations
+rtk git pull            # Ultra-compact confirmations
+rtk git branch          # Compact branch list
+rtk git fetch           # Compact fetch
+rtk git stash           # Compact stash
+rtk git worktree        # Compact worktree
+```
+
+### GitHub (26-87% savings)
+
+```bash
+rtk gh pr view <num>    # Compact PR view (87%)
+rtk gh pr checks        # Compact PR checks (79%)
+rtk gh run list         # Compact workflow runs (82%)
+rtk gh issue list       # Compact issue list (80%)
+rtk gh api              # Compact API responses (26%)
+```
+
+Note: Git passthrough works for ALL subcommands, even those not explicitly listed.
+
+### GitHub (26-87% savings)
+
+```bash
+rtk gh pr view <num>    # Compact PR view (87%)
+rtk gh pr checks        # Compact PR checks (79%)
+rtk gh run list         # Compact workflow runs (82%)
+rtk gh issue list       # Compact issue list (80%)
+rtk gh api              # Compact API responses (26%)
+```
+
+### Docker & Infrastructure (85% savings)
+
+```bash
+rtk docker ps           # Compact container list
+rtk docker images       # Compact image list
+rtk docker logs <c>     # Deduplicated logs
+rtk docker compose up   # Docker Compose output
+rtk docker compose down
+```
+
+### Files & Search (60-75% savings)
+
+```bash
+rtk ls <path>           # Tree format, compact (65%)
+rtk read <file>         # Code reading with filtering (60%)
+rtk grep <pattern>      # Search grouped by file (75%)
+rtk find <pattern>      # Find grouped by directory (70%)
+```
+
+### Analysis & Debug (70-90% savings)
+
+```bash
+rtk err <cmd>           # Filter errors only from any command
+rtk log <file>          # Deduplicated logs with counts
+rtk json <file>         # JSON structure without values
+rtk deps                # Dependency overview
+rtk env                 # Environment variables compact
+rtk summary <cmd>       # Smart summary of command output
+rtk diff                # Ultra-compact diffs
+```
+
+### Network (65-70% savings)
+
+```bash
+rtk curl <url>          # Compact HTTP responses (70%)
+rtk wget <url>          # Compact download output (65%)
+```
+
+### Meta Commands
+
+```bash
+rtk gain                # View token savings statistics
+rtk gain -history      # View command history with savings
+rtk discover            # Analyze sessions for missed RTK usage
+rtk proxy <cmd>         # Run command without filtering (for debugging)
+```
+
+<!-- <!- /rtk-instructions -> -->
+
 ## Project Structure
 
 ```
@@ -59,13 +176,14 @@ modules/<module_name>/
 Use the scaffold script or make target:
 
 ```bash
-make scaffold                    # Interactive (requires gum)
 ./scripts/scaffold.sh my_module  # Non-interactive
 ```
 
 This creates the full directory structure with template files. After scaffolding, implement the module and run `make docs` to generate the README.
 
 ## Code Conventions
+
+Use the terraform-styleguides skill
 
 ### Formatting
 
@@ -83,12 +201,12 @@ This creates the full directory structure with template files. After scaffolding
 
 These variables appear in nearly every module and should be included in new modules:
 
-| Variable | Type | Required | Description |
-|---|---|---|---|
-| `name` | `string` | yes | Name of the primary resource |
-| `location` | `string` | yes | Azure region |
-| `resource_group_name` | `string` | yes | Target resource group |
-| `tags` | `map(any)` or `map(string)` | varies | Tags to assign to resources |
+| Variable              | Type                        | Required | Description                  |
+| --------------------- | --------------------------- | -------- | ---------------------------- |
+| `name`                | `string`                    | yes      | Name of the primary resource |
+| `location`            | `string`                    | yes      | Azure region                 |
+| `resource_group_name` | `string`                    | yes      | Target resource group        |
+| `tags`                | `map(any)` or `map(string)` | varies   | Tags to assign to resources  |
 
 ### Variables
 
@@ -161,13 +279,13 @@ make asdf
 
 Pinned versions (from `.tool-versions`):
 
-| Tool | Version |
-|---|---|
-| terragrunt | 0.59.5 |
-| terraform-docs | 0.16.0 |
-| terramate | 0.9.0 |
-| tflint | 0.51.1 |
-| gum | 0.14.1 |
+| Tool           | Version |
+| -------------- | ------- |
+| terragrunt     | 0.59.5  |
+| terraform-docs | 0.16.0  |
+| terramate      | 0.9.0   |
+| tflint         | 0.51.1  |
+| gum            | 0.14.1  |
 
 ## Reference Module
 
@@ -186,3 +304,20 @@ The `key_vault` module (`modules/key_vault/`) is the most mature module in this 
 - Do not manually edit `README.md` files inside modules -- they are auto-generated
 - Do not commit `.terraform/` directories, state files, or `*.auto.tfvars`
 - Do not hardcode credentials or secrets in any file
+
+## Hard rules
+
+- Always use worktrees (located in .worktrees)
+- Keep commits atomic: commit only the files you touched and list each path explicitly. For tracked files run `git commit -m "<scoped message>" - path/to/file1 path/to/file2`. For brand-new files, use the one-liner `git restore --staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" - path/to/file1 path/to/file2`.
+- Quote any git paths containing brackets or parentheses (e.g., `src/app/[candidate]/**`) when staging or committing so the shell does not treat them as globs or subshells.
+- When running `git rebase`, avoid opening editors—export `GIT_EDITOR=:` and `GIT_SEQUENCE_EDITOR=:` (or pass `--no-edit`) so the default messages are used automatically.
+- Never amend commits unless you have explicit written approval in the task thread.
+- When you need to search docs, use `context7` or `mcp:fetch` tools.
+- NEVER edit .env or any environment variable files—only the user may change them.
+- Moving/renaming and restoring files is allowed.
+- ABSOLUTELY NEVER run destructive git operations (e.g., `git reset -hard`, `rm`, `git checkout`/`git restore` to an older commit) unless the user gives an explicit, written instruction in this conversation. Treat these commands as catastrophic; if you are even slightly unsure, stop and ask before touching them. _(When working within Cursor or Codex Web, these git limitations do not apply; use the tooling's capabilities as needed.)_
+- Never use `git restore` (or similar commands) to revert files you didn't author—coordinate with other agents instead so their in-progress work stays intact.
+- Always double-check git status before any commit
+- Keep commits atomic: commit only the files you touched and list each path explicitly. For tracked files run `git commit -m "<scoped message>" - path/to/file1 path/to/file2`. For brand-new files, use the one-liner `git restore -staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" - path/to/file1 path/to/file2`.
+- ALWAYS use single dashes when writing, i.e. `-`. Never `--`
+- Never merge locally. Always push your changes to GitHub and create PRs there for a human to review
